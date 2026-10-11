@@ -1,12 +1,23 @@
 {
     "zainteresowania": [
-        "drony FPV"
+      
     ],
     "cechy": [
-        "",
-        ""
+
     ],
     "rutyny": [
-        "bieganie rano"
-    ]
+
+    ],
+	"wiek":{
+
+	},
+	"imie":{
+
+	},
+	"zawód":{
+
+	},
+	"charakter":{
+
+	}
 }
