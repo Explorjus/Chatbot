@@ -2,6 +2,16 @@ from ollama import chat
 from pathlib import Path
 import json
 
+plik_tekst = Path.home() /"Downloads"/"wykład_1_prg.txt"
+text = plik_tekst.read_text(encoding="cp1250")
+text_tresc = [
+	{"role": "system", "content": 
+		"zrób głęboką analize tego tekstu i przekaz mi najwaniejsze informacje odnosnie jego" + text
+	}
+]
+
+
+
 PLIK_historia = Path(__file__).parent / "historia.json"
 
 PLIK_preferencje = Path(__file__).parent / "preferencje.json"
@@ -23,7 +33,6 @@ def zaladuj():
 			return {}
 
 	return {}
-
 
 def scal(stare, nowe):
 	for klucz, wartosc in nowe.items():
@@ -79,6 +88,7 @@ while True:
 				f"/clear - czysci czat\n"
 				f"/save - zapisuje rozmowe\n"
 				f"/exit - zamyka program\n"
+				f"/czytaj - analiza wybranewgo pliku\n"
 				f"/thinking - wł. lub wył myślenie, "
 				f"obecnie {'on' if thinking else 'off'}"
 			)
@@ -94,7 +104,14 @@ while True:
 		elif ask == "/thinking":
 			thinking = myslenie(thinking)
 			continue
-	
+		elif ask == "/czytaj":
+			response = chat(model="qwen3.5:9b", messages=text_tresc, think=thinking, stream=True)
+			for sylaba in response:
+				print(sylaba["message"]["content"], end="", flush=True)
+			print()
+			continue
+ 
+ 
 		pamiec.append({"role": "user", "content": ask})
 		
 		wiadomosci = [
@@ -109,7 +126,8 @@ while True:
 	]
 
 		
-		response = chat(model="qwen3.5:4b", messages=wiadomosci + pamiec[-10:], think=thinking, stream=True)
+		response = chat(model="qwen3.5:9b", messages=wiadomosci + pamiec[-10:], think=thinking, stream=True)
+
 
 		answer = ""
 		
@@ -147,7 +165,7 @@ while True:
 	}
 
 
-		charakter = chat(model="qwen3.5:4b", messages=tresc_charakter, format=SCHEMA_PREF, options={"temperature": 0}, think=False,)
+		charakter = chat(model="qwen3.5:9b", messages=tresc_charakter, format=SCHEMA_PREF, options={"temperature": 0}, think=False,)
 
 
 		nowe = json.loads(charakter["message"]["content"])
@@ -165,4 +183,6 @@ while True:
 		print(" Wychodzneie z programu")
 		break
 	
-		
+	
+
+

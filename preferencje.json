@@ -2,22 +2,11 @@
     "zainteresowania": [
       
     ],
-    "cechy": [
-
-    ],
+    "cechy": [],
     "rutyny": [
-
     ],
-	"wiek":{
-
-	},
-	"imie":{
-
-	},
-	"zawód":{
-
-	},
-	"charakter":{
-
-	}
+    "wiek": {},
+    "imie": {},
+    "zawód": {},
+    "charakter": {}
 }
